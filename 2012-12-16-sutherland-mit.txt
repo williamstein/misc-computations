@@ -1,0 +1,398 @@
+
+{{{id=36|
+
+///
+}}}
+
+{{{id=18|
+%time
+for p in prime_range(100000):
+    X = HeilbronnCremona(p)
+///
+CPU time: 73.97 s,  Wall time: 74.39 s
+}}}
+
+{{{id=31|
+list(HeilbronnCremona(2))
+///
+[[1, 0, 0, 2], [2, 0, 0, 1], [2, 1, 0, 1], [1, 0, 1, 2]]
+}}}
+
+{{{id=17|
+v = prime_range(2^20)
+///
+}}}
+
+{{{id=20|
+%cython
+from math import log
+from sage.all import prime_range
+def f(N):
+    return sum(float(p)*log(float(p)) for p in prime_range(N))
+///
+}}}
+
+{{{id=19|
+f(1000000)
+///
+499223953805.26904
+}}}
+
+{{{id=21|
+c = f(10000)
+///
+}}}
+
+{{{id=22|
+f(100000)/c
+///
+100.27036637036733
+}}}
+
+{{{id=23|
+f(1000000)/c
+///
+10025.130337141174
+}}}
+
+{{{id=25|
+
+///
+}}}
+
+<p>From a triple (i,u,v) to an integer. &nbsp;I.e., phi_f</p>
+
+{{{id=29|
+M = ModularSymbols(DirichletGroup(7, QQ).0, 3, sign=1); M
+S = M.cuspidal_submodule(); S
+phi = S.integral_period_mapping()
+
+def phi_f(i,u,v):
+    return phi(M( (i,u,v) ))
+
+phi_f(1,3,7)
+///
+(-1/4)
+}}}
+
+{{{id=37|
+phi_f(1,1,2), phi_f(1,2,1), phi_f(1,2,2), phi_f(0,2,2)
+///
+((1/4), (-3/4), (1/4), (-1/4))
+}}}
+
+{{{id=30|
+print list(HeilbronnCremona(2))
+phi_f(1,1,2) + 2*phi_f(1,2,1) + 3*phi_f(1,2,2) + 1*phi_f(0,2,2)
+///
+[[1, 0, 0, 2], [2, 0, 0, 1], [2, 1, 0, 1], [1, 0, 1, 2]]
+(-3/4)
+}}}
+
+{{{id=39|
+-3/4/(1/4)
+///
+-3
+}}}
+
+{{{id=46|
+x = M( (1,1,1) ); x
+///
+[X,(1,2)]
+}}}
+
+{{{id=47|
+M.hecke_operator(2)(x)
+///
+3*[X,(1,2)] + 2*[X,(1,4)]
+}}}
+
+{{{id=51|
+phi(M.hecke_operator(2)(x))
+///
+(-3/4)
+}}}
+
+{{{id=48|
+phi(M.hecke_operator(2)(x)) / phi(x)
+///
+-3
+}}}
+
+{{{id=50|
+M.hecke_matrix(2).fcp()
+///
+(x - 5) * (x + 3)
+}}}
+
+{{{id=38|
+
+///
+}}}
+
+<p>This is from sage's heilbronn.pyx</p>
+<div id="_mcePaste" style="position: absolute; left: -10000px; top: 0px; width: 1px; height: 1px; overflow: hidden;">&nbsp; &nbsp; def _initialize_list(self):</div>
+<div id="_mcePaste" style="position: absolute; left: -10000px; top: 0px; width: 1px; height: 1px; overflow: hidden;">&nbsp; &nbsp; &nbsp; &nbsp; """</div>
+<div id="_mcePaste" style="position: absolute; left: -10000px; top: 0px; width: 1px; height: 1px; overflow: hidden;">&nbsp; &nbsp; &nbsp; &nbsp; Initialize the list of matrices corresponding to self. (This</div>
+<div id="_mcePaste" style="position: absolute; left: -10000px; top: 0px; width: 1px; height: 1px; overflow: hidden;">&nbsp; &nbsp; &nbsp; &nbsp; function is automatically called during initialization.)</div>
+<div id="_mcePaste" style="position: absolute; left: -10000px; top: 0px; width: 1px; height: 1px; overflow: hidden;">&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</div>
+<div id="_mcePaste" style="position: absolute; left: -10000px; top: 0px; width: 1px; height: 1px; overflow: hidden;">&nbsp; &nbsp; &nbsp; &nbsp; EXAMPLES::</div>
+<div id="_mcePaste" style="position: absolute; left: -10000px; top: 0px; width: 1px; height: 1px; overflow: hidden;">&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</div>
+<div id="_mcePaste" style="position: absolute; left: -10000px; top: 0px; width: 1px; height: 1px; overflow: hidden;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; sage: H = HeilbronnCremona.__new__(HeilbronnCremona)</div>
+<div id="_mcePaste" style="position: absolute; left: -10000px; top: 0px; width: 1px; height: 1px; overflow: hidden;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; sage: H.p = 5</div>
+<div id="_mcePaste" style="position: absolute; left: -10000px; top: 0px; width: 1px; height: 1px; overflow: hidden;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; sage: H</div>
+<div id="_mcePaste" style="position: absolute; left: -10000px; top: 0px; width: 1px; height: 1px; overflow: hidden;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; The Cremona-Heilbronn matrices of determinant 5</div>
+<div id="_mcePaste" style="position: absolute; left: -10000px; top: 0px; width: 1px; height: 1px; overflow: hidden;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; sage: H.to_list()</div>
+<div id="_mcePaste" style="position: absolute; left: -10000px; top: 0px; width: 1px; height: 1px; overflow: hidden;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; []</div>
+<div id="_mcePaste" style="position: absolute; left: -10000px; top: 0px; width: 1px; height: 1px; overflow: hidden;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; sage: H._initialize_list()</div>
+<div id="_mcePaste" style="position: absolute; left: -10000px; top: 0px; width: 1px; height: 1px; overflow: hidden;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; sage: H.to_list()</div>
+<div id="_mcePaste" style="position: absolute; left: -10000px; top: 0px; width: 1px; height: 1px; overflow: hidden;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; [[1, 0, 0, 5],</div>
+<div id="_mcePaste" style="position: absolute; left: -10000px; top: 0px; width: 1px; height: 1px; overflow: hidden;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; [5, 2, 0, 1],</div>
+<div id="_mcePaste" style="position: absolute; left: -10000px; top: 0px; width: 1px; height: 1px; overflow: hidden;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; [2, 1, 1, 3],</div>
+<div id="_mcePaste" style="position: absolute; left: -10000px; top: 0px; width: 1px; height: 1px; overflow: hidden;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; [1, 0, 3, 5],</div>
+<div id="_mcePaste" style="position: absolute; left: -10000px; top: 0px; width: 1px; height: 1px; overflow: hidden;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; [5, 1, 0, 1],</div>
+<div id="_mcePaste" style="position: absolute; left: -10000px; top: 0px; width: 1px; height: 1px; overflow: hidden;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; [1, 0, 1, 5],</div>
+<div id="_mcePaste" style="position: absolute; left: -10000px; top: 0px; width: 1px; height: 1px; overflow: hidden;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; [5, 0, 0, 1],</div>
+<div id="_mcePaste" style="position: absolute; left: -10000px; top: 0px; width: 1px; height: 1px; overflow: hidden;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; [5, -1, 0, 1],</div>
+<div id="_mcePaste" style="position: absolute; left: -10000px; top: 0px; width: 1px; height: 1px; overflow: hidden;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; [-1, 0, 1, -5],</div>
+<div id="_mcePaste" style="position: absolute; left: -10000px; top: 0px; width: 1px; height: 1px; overflow: hidden;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; [5, -2, 0, 1],</div>
+<div id="_mcePaste" style="position: absolute; left: -10000px; top: 0px; width: 1px; height: 1px; overflow: hidden;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; [-2, 1, 1, -3],</div>
+<div id="_mcePaste" style="position: absolute; left: -10000px; top: 0px; width: 1px; height: 1px; overflow: hidden;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; [1, 0, -3, 5]]</div>
+<div id="_mcePaste" style="position: absolute; left: -10000px; top: 0px; width: 1px; height: 1px; overflow: hidden;">&nbsp; &nbsp; &nbsp; &nbsp; """</div>
+<div id="_mcePaste" style="position: absolute; left: -10000px; top: 0px; width: 1px; height: 1px; overflow: hidden;">&nbsp; &nbsp; &nbsp; &nbsp; cdef int r, x1, x2, y1, y2, a, b, c, x3, y3, q, n, p</div>
+<div id="_mcePaste" style="position: absolute; left: -10000px; top: 0px; width: 1px; height: 1px; overflow: hidden;">&nbsp; &nbsp; &nbsp; &nbsp; cdef list *L</div>
+<div id="_mcePaste" style="position: absolute; left: -10000px; top: 0px; width: 1px; height: 1px; overflow: hidden;">&nbsp; &nbsp; &nbsp; &nbsp; list_init(&amp;self.list)</div>
+<div id="_mcePaste" style="position: absolute; left: -10000px; top: 0px; width: 1px; height: 1px; overflow: hidden;">&nbsp; &nbsp; &nbsp; &nbsp; L = &amp;self.list</div>
+<div id="_mcePaste" style="position: absolute; left: -10000px; top: 0px; width: 1px; height: 1px; overflow: hidden;">&nbsp; &nbsp; &nbsp; &nbsp; p = self.p</div>
+<div id="_mcePaste" style="position: absolute; left: -10000px; top: 0px; width: 1px; height: 1px; overflow: hidden;">&nbsp; &nbsp; &nbsp; &nbsp; list_append4(L, 1,0,0,p)</div>
+<div id="_mcePaste" style="position: absolute; left: -10000px; top: 0px; width: 1px; height: 1px; overflow: hidden;">&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</div>
+<div id="_mcePaste" style="position: absolute; left: -10000px; top: 0px; width: 1px; height: 1px; overflow: hidden;">&nbsp; &nbsp; &nbsp; &nbsp; # When p==2, then Heilbronn matrices are</div>
+<div id="_mcePaste" style="position: absolute; left: -10000px; top: 0px; width: 1px; height: 1px; overflow: hidden;">&nbsp; &nbsp; &nbsp; &nbsp; # &nbsp; &nbsp;[[1,0,0,2], [2,0,0,1], [2,1,0,1], [1,0,1,2]]</div>
+<div id="_mcePaste" style="position: absolute; left: -10000px; top: 0px; width: 1px; height: 1px; overflow: hidden;">&nbsp; &nbsp; &nbsp; &nbsp; # which are not given by the algorithm below.</div>
+<div id="_mcePaste" style="position: absolute; left: -10000px; top: 0px; width: 1px; height: 1px; overflow: hidden;">&nbsp; &nbsp; &nbsp; &nbsp; if p == 2:</div>
+<div id="_mcePaste" style="position: absolute; left: -10000px; top: 0px; width: 1px; height: 1px; overflow: hidden;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; list_append4(L, 2,0,0,1)</div>
+<div id="_mcePaste" style="position: absolute; left: -10000px; top: 0px; width: 1px; height: 1px; overflow: hidden;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; list_append4(L, 2,1,0,1)</div>
+<div id="_mcePaste" style="position: absolute; left: -10000px; top: 0px; width: 1px; height: 1px; overflow: hidden;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; list_append4(L, 1,0,1,2)</div>
+<div id="_mcePaste" style="position: absolute; left: -10000px; top: 0px; width: 1px; height: 1px; overflow: hidden;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; self.length = 4</div>
+<div id="_mcePaste" style="position: absolute; left: -10000px; top: 0px; width: 1px; height: 1px; overflow: hidden;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; return</div>
+<div id="_mcePaste" style="position: absolute; left: -10000px; top: 0px; width: 1px; height: 1px; overflow: hidden;">&nbsp; &nbsp; &nbsp; &nbsp; # NOTE: In C, -p/2 means "round toward 0", but in Python it</div>
+<div id="_mcePaste" style="position: absolute; left: -10000px; top: 0px; width: 1px; height: 1px; overflow: hidden;">&nbsp; &nbsp; &nbsp; &nbsp; # means "round down."</div>
+<div id="_mcePaste" style="position: absolute; left: -10000px; top: 0px; width: 1px; height: 1px; overflow: hidden;">&nbsp; &nbsp; &nbsp; &nbsp; sig_on()</div>
+<div id="_mcePaste" style="position: absolute; left: -10000px; top: 0px; width: 1px; height: 1px; overflow: hidden;">&nbsp; &nbsp; &nbsp; &nbsp; for r in range(-p/2, p/2+1):</div>
+<div id="_mcePaste" style="position: absolute; left: -10000px; top: 0px; width: 1px; height: 1px; overflow: hidden;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; x1=p; x2=-r; y1=0; y2=1; a=-p; b=r; c=0; x3=0; y3=0; q=0</div>
+<div id="_mcePaste" style="position: absolute; left: -10000px; top: 0px; width: 1px; height: 1px; overflow: hidden;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; list_append4(L, x1,x2,y1,y2)</div>
+<div id="_mcePaste" style="position: absolute; left: -10000px; top: 0px; width: 1px; height: 1px; overflow: hidden;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; while b:</div>
+<div id="_mcePaste" style="position: absolute; left: -10000px; top: 0px; width: 1px; height: 1px; overflow: hidden;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; q = &lt;int&gt;roundf(&lt;float&gt;a / &lt;float&gt; b)</div>
+<div id="_mcePaste" style="position: absolute; left: -10000px; top: 0px; width: 1px; height: 1px; overflow: hidden;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; c = a - b*q</div>
+<div id="_mcePaste" style="position: absolute; left: -10000px; top: 0px; width: 1px; height: 1px; overflow: hidden;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; a = -b</div>
+<div id="_mcePaste" style="position: absolute; left: -10000px; top: 0px; width: 1px; height: 1px; overflow: hidden;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; b = c</div>
+<div id="_mcePaste" style="position: absolute; left: -10000px; top: 0px; width: 1px; height: 1px; overflow: hidden;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; x3 = q*x2 - x1</div>
+<div id="_mcePaste" style="position: absolute; left: -10000px; top: 0px; width: 1px; height: 1px; overflow: hidden;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; x1 = x2; x2 = x3; y3 = q*y2 - y1; y1 = y2; y2 = y3</div>
+<div id="_mcePaste" style="position: absolute; left: -10000px; top: 0px; width: 1px; height: 1px; overflow: hidden;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; list_append4(L, x1,x2, y1,y2)</div>
+<div id="_mcePaste" style="position: absolute; left: -10000px; top: 0px; width: 1px; height: 1px; overflow: hidden;">&nbsp; &nbsp; &nbsp; &nbsp; self.length = L.i/4</div>
+<div id="_mcePaste" style="position: absolute; left: -10000px; top: 0px; width: 1px; height: 1px; overflow: hidden;">&nbsp; &nbsp; &nbsp; &nbsp; sig_off()</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+{{{id=32|
+    def _initialize_list(self):
+        """
+        Initialize the list of matrices corresponding to self. (This
+        function is automatically called during initialization.)
+        
+        EXAMPLES::
+        
+            sage: H = HeilbronnCremona.__new__(HeilbronnCremona)
+            sage: H.p = 5
+            sage: H
+            The Cremona-Heilbronn matrices of determinant 5
+            sage: H.to_list()
+            []
+            sage: H._initialize_list()
+            sage: H.to_list()
+            [[1, 0, 0, 5],
+            [5, 2, 0, 1],
+            [2, 1, 1, 3],
+            [1, 0, 3, 5],
+            [5, 1, 0, 1],
+            [1, 0, 1, 5],
+            [5, 0, 0, 1],
+            [5, -1, 0, 1],
+            [-1, 0, 1, -5],
+            [5, -2, 0, 1],
+            [-2, 1, 1, -3],
+            [1, 0, -3, 5]]
+        """
+        cdef int r, x1, x2, y1, y2, a, b, c, x3, y3, q, n, p
+        cdef list *L
+        list_init(&self.list)
+        L = &self.list
+        p = self.p
+
+        list_append4(L, 1,0,0,p)
+        
+        # When p==2, then Heilbronn matrices are
+        #    [[1,0,0,2], [2,0,0,1], [2,1,0,1], [1,0,1,2]]
+        # which are not given by the algorithm below.
+        if p == 2:
+            list_append4(L, 2,0,0,1)
+            list_append4(L, 2,1,0,1)
+            list_append4(L, 1,0,1,2)
+            self.length = 4
+            return
+
+        # NOTE: In C, -p/2 means "round toward 0", but in Python it
+        # means "round down."
+        sig_on()
+        for r in range(-p/2, p/2+1):
+            x1=p; x2=-r; y1=0; y2=1; a=-p; b=r; c=0; x3=0; y3=0; q=0
+            list_append4(L, x1,x2,y1,y2)
+            while b:
+                q = <int>roundf(<float>a / <float> b)
+                c = a - b*q
+                a = -b
+                b = c
+                x3 = q*x2 - x1
+                x1 = x2; x2 = x3; y3 = q*y2 - y1; y1 = y2; y2 = y3
+                list_append4(L, x1,x2, y1,y2)
+        self.length = L.i/4
+        sig_off()
+///
+}}}
+
+{{{id=24|
+H = HeilbronnCremona(11)
+///
+}}}
+
+<p>See <a href="../../../src/modular/modsym/heilbronn.pyx/" target="_blank">https://hensel.mit.edu:8001/src/modular/modsym/heilbronn.pyx/</a></p>
+
+{{{id=34|
+H._initialize_list??
+///
+<html><!--notruncate-->
+
+<div class="docstring">
+    
+  <p><strong>File:</strong> /opt/sage/sage-5.0.1/devel/sage/sage/modular/modsym/heilbronn.pyx</p>
+<p><strong>Source Code</strong> (starting at line 326):</p>
+<div class="highlight-python"><pre class="literal-block">def _initialize_list(self):
+    """
+    Initialize the list of matrices corresponding to self. (This
+    function is automatically called during initialization.)
+
+    EXAMPLES::
+
+        sage: H = HeilbronnCremona.__new__(HeilbronnCremona)
+        sage: H.p = 5
+        sage: H
+        The Cremona-Heilbronn matrices of determinant 5
+        sage: H.to_list()
+        []
+        sage: H._initialize_list()
+        sage: H.to_list()
+        [[1, 0, 0, 5],
+        [5, 2, 0, 1],
+        [2, 1, 1, 3],
+        [1, 0, 3, 5],
+        [5, 1, 0, 1],
+        [1, 0, 1, 5],
+        [5, 0, 0, 1],
+        [5, -1, 0, 1],
+        [-1, 0, 1, -5],
+        [5, -2, 0, 1],
+        [-2, 1, 1, -3],
+        [1, 0, -3, 5]]
+    """
+    cdef int r, x1, x2, y1, y2, a, b, c, x3, y3, q, n, p
+    cdef list *L
+    list_init(&amp;self.list)
+    L = &amp;self.list
+    p = self.p
+
+    list_append4(L, 1,0,0,p)
+
+    # When p==2, then Heilbronn matrices are
+    #    [[1,0,0,2], [2,0,0,1], [2,1,0,1], [1,0,1,2]]
+    # which are not given by the algorithm below.
+    if p == 2:
+        list_append4(L, 2,0,0,1)
+        list_append4(L, 2,1,0,1)
+        list_append4(L, 1,0,1,2)
+        self.length = 4
+        return
+
+    # NOTE: In C, -p/2 means "round toward 0", but in Python it
+    # means "round down."
+    sig_on()
+    for r in range(-p/2, p/2+1):
+        x1=p; x2=-r; y1=0; y2=1; a=-p; b=r; c=0; x3=0; y3=0; q=0
+        list_append4(L, x1,x2,y1,y2)
+        while b:
+            q = &lt;int&gt;roundf(&lt;float&gt;a / &lt;float&gt; b)
+            c = a - b*q
+            a = -b
+            b = c
+            x3 = q*x2 - x1
+            x1 = x2; x2 = x3; y3 = q*y2 - y1; y1 = y2; y2 = y3
+            list_append4(L, x1,x2, y1,y2)
+    self.length = L.i/4
+    sig_off()</pre>
+</div>
+
+
+</div>
+</html>
+}}}
+
+{{{id=6|
+M = ModularSymbols(DirichletGroup(7, QQ).0, 3, sign=1); M
+S = M.cuspidal_submodule(); S
+S.q_expansion_basis(10)
+time E,v = S.compact_system_of_eigenvalues(prime_range(1000))
+print E.transpose()[0].list()
+///
+Time: CPU 11.55 s, Wall: 11.61 s
+[-3, 0, 0, -7, -6, 0, 0, 0, 18, -54, 0, -38, 0, 58, 0, -6, 0, 0, -118, 114, 0, -94, 0, 0, 0, 0, 0, 186, 106, -222, 2, 0, -174, 0, 186, 274, 0, 74, 0, 0, -342, 0, -318, -62, 282, 0, -278, 0, 0, 0, 18, -222, 0, 0, 0, 498, 0, 0, -454, 114, 0, 0, 0, 0, 0, 522, 634, 226, -678, 0, 0, -654, 0, -262, -614, 0, 666, 0, 354, 0, 0, -166, 162, 0, 0, -486, -894, -878, 0, 674, 0, 0, -398, 954, 298, 0, 0, 0, 0, 74, 842, 1002, 0, -654, -1126, 0, 0, 0, -174, 0, 0, 218, -558, 0, -1006, 834, 0, 0, 1194, 618, 0, -446, 0, 1338, 0, -1398, -1382, 0, 0, 0, 1226, 114, 802, 1402, 0, 0, 0, 0, 0, -174, 0, -1158, -622, 282, 0, 0, 0, 0, 0, -1662, 746, 0, -1622, 0, 1786, -1566, 466, 0, 0, 0, -1494, 1458, -334, 0, 162, 0, -1406, 0]
+}}}
+
+{{{id=14|
+M = ModularSymbols(389, 2, sign=1); M
+S = M.cuspidal_submodule()
+A = S.decomposition()[0]
+time E,v = A.compact_system_of_eigenvalues(prime_range(10000))
+print E.transpose()[0].list()
+///
+Time: CPU 3.12 s, Wall: 3.14 s
+[-2, -2, -3, -5, -4, -3, -6, 5, -4, -6, 4, -8, -3, 12, -2, -6, 3, -8, -5, -10, -7, -13, -12, -8, -9, -4, -6, 0, 2, 9, 11, 2, -2, 16, 10, -10, -6, -20, 8, 15, -19, 15, -4, -18, 8, -2, 7, -5, 12, -8, -6, 5, -30, 22, 8, -24, 3, -8, 17, -12, -9, -10, 26, -7, 19, -22, 4, -18, 9, -10, 14, -20, 2, -22, 4, -7, 1, 24, -22, -1, -35, -16, 11, 29, 16, 35, -24, -9, -14, -27, 28, 36, 20, -27, -36, -9, 30, 8, 38, -20, 8, 6, -10, -15, 12, -10, -24, 44, 0, -40, 7, -12, -6, 24, -30, 7, -48, 10, 30, -27, -17, 2, 22, -21, -17, 34, -19, -19, -26, -43, 22, 15, -38, -24, -21, 5, -27, 32, -18, 10, 16, 34, 32, -52, -2, 4, -14, 39, 1, 13, -23, -14, -50, -20, -16, -24, 47, -30, 9, -6, 28, -9, 8, 5, -24, -25, -53, -22, 62, 36, 36, -54, 12, 40, 24, 0, 64, 54, -14, -18, -61, -36, -21, -52, 16, -31, -22, -48, 66, -36, 6, 43, -3, -48, 3, -30, 50, 1, 60, 26, -1, 20, -6, 28, -14, -52, 28, -4, 25, 26, -38, -44, -18, 69, 6, 2, -12, -2, -16, -1, 17, -20, 6, 73, 20, -5, -26, -5, 34, -10, 44, 31, -31, -66, -52, -72, -3, 1, -36, -72, 32, -68, -5, 10, -36, -34, 47, -6, -44, 6, -34, -75, -32, -48, -4, -35, -26, -60, -42, -58, 62, 19, -22, 26, 62, 35, 63, 54, -36, -40, 24, -56, -22, 20, 7, -36, -4, 32, -27, 42, 56, 7, 40, 70, -33, 45, 10, -69, -11, -6, 14, -60, -30, 30, 74, 31, 1, 13, 18, 55, 84, -15, 40, 27, -85, -38, -72, -80, 83, -18, 68, 52, 18, 56, -51, 53, 6, 88, -53, -81, 22, -20, 75, -38, 29, 74, 50, 64, 27, -71, -55, 2, -81, -17, -52, -8, 35, -36, 14, 62, -51, 36, 70, -62, 17, 36, -1, 88, 33, -64, 4, -22, 14, 9, 43, -27, -69, -5, 78, 30, -28, -48, 57, -65, -47, -66, -18, -96, 1, 72, 75, 57, -90, 4, 34, 15, 26, -32, -34, -5, 77, -48, 35, -33, 17, -82, -40, 42, 52, -39, -38, -30, 49, -29, 50, -50, 40, -66, -76, -96, 22, 89, 41, -61, 55, -91, -103, 66, 56, 76, 28, 87, 48, -18, 22, -28, -30, 53, -72, -64, -66, 2, 70, -89, -49, 0, 16, -18, -13, 25, -22, -44, -83, -82, 10, -22, 54, 88, -95, 64, -94, 58, -30, 57, 35, 97, -42, 24, 82, -38, -22, -63, 71, 75, -92, 106, 61, -82, -19, -16, -40, 88, -69, -62, 50, 100, 38, 99, 52, 34, 14, -62, -93, 21, 44, 36, -75, 70, 3, -12, 13, -6, 2, 30, 82, -90, 66, 60, 100, -32, -59, -88, -34, -44, 66, 46, -73, -50, -45, 98, 63, -72, 18, -27, 7, -78, -40, 22, -32, -99, 24, 2, 14, -65, 110, 47, -92, -71, 3, 94, -61, 40, -49, 48, 67, 75, 5, 51, -48, 30, -48, 12, -44, 74, 108, -34, 97, 35, -35, 27, 88, 16, 76, 48, 32, -64, -34, 36, -48, 119, -55, -25, 112, -14, -84, -64, 39, -55, -54, 72, -29, 94, -12, -68, 116, 9, 18, -67, 32, 41, -84, -3, 71, -50, 5, 115, -81, -28, -48, -76, -64, 4, -30, 97, 32, 54, 26, 61, 96, 66, -44, 7, 34, -118, 30, -86, -106, 25, -36, -30, -29, 83, -24, 32, -64, -15, -81, 75, -70, 111, -64, -38, 66, -28, -92, -113, -49, -98, 24, -21, -80, 48, -37, -82, 82, 14, -119, 27, 43, -41, -23, 9, -131, 90, -128, -12, -3, -80, -29, -90, 61, -44, -87, 29, -43, -20, -82, -108, -104, 10, 35, 34, -59, -10, -26, -62, -58, -30, -64, 9, 9, -95, -11, 24, -100, 30, 12, -2, 60, -37, -18, -35, -65, 26, 98, -109, 92, 62, 37, -48, -57, 14, 80, 34, 25, -62, 103, -92, -3, -43, 88, -13, 10, 102, 30, -139, 87, 26, 110, -66, -92, 6, -11, -42, 112, -42, 33, -23, -87, -132, 136, -26, 4, -26, 12, 60, 40, -87, -105, -28, 136, -45, 24, -8, -104, -75, -34, 68, -35, 40, 88, -64, 139, 111, 68, 71, 58, -4, 32, -24, 16, -64, 148, 88, 58, -21, -74, -68, 54, 49, -38, 84, -148, -40, -81, -48, -85, -2, 20, -89, 64, -25, -4, -44, -68, 115, -42, -104, 44, -120, 20, 48, 8, 19, 86, -35, -8, 8, 100, 10, -46, 20, 4, -16, -12, 134, 7, -65, -52, -111, -93, 94, 46, -126, -105, -146, -129, -60, -45, 25, -96, -36, -136, -72, 72, 128, 132, -84, 23, 120, -47, 18, 42, 80, -14, -4, 34, -24, 36, -119, -75, 27, -5, 6, 79, 25, 27, -26, 42, 75, 152, 8, -6, 50, 104, 100, 10, -134, 26, -26, -42, -129, -122, 92, 17, 57, 144, 64, -63, -121, 23, -16, -106, 115, -3, 147, -120, 100, 0, 2, 41, 119, 12, -30, 16, -7, 109, 17, -74, -148, -121, 108, -23, -117, 62, 54, 73, 41, -10, -59, -162, -102, 34, 114, -122, 24, 30, 52, -40, -57, -99, -74, -40, -78, 52, 132, -99, 27, 105, -103, 78, -62, -96, -72, -146, -17, -93, -18, 145, -84, -108, 11, -57, 75, 124, -88, -22, 28, -48, 32, -161, -75, 94, 12, 106, -134, 95, 132, 130, -102, 52, 34, 88, 30, -155, -95, 130, -18, -154, 148, 82, -38, 138, 43, -116, 115, 84, 31, -104, -32, -80, -98, -166, -138, -134, 17, -144, 32, -19, -16, 104, 152, 144, 2, -92, -34, -163, 145, -29, -75, -36, 101, 4, 49, -24, -100, 100, -112, -31, -30, -12, 58, 164, 126, 60, -30, 6, 90, -66, -59, -30, -2, 73, -29, -109, 149, -134, -27, -9, 4, -46, 38, -46, -85, -52, 93, 34, 12, 100, 36, 108, 74, 46, -21, -140, -70, -30, 51, -135, -87, -9, -12, -108, -38, -38, 108, -10, 14, 64, -66, 93, 64, 15, 42, -36, 0, 134, 100, 72, -89, -120, 96, -48, -132, -108, 82, -48, -84, 113, -108, -65, -86, 82, -86, 101, -142, 108, -93, 156, 108, -27, -52, -126, -12, 113, -18, -29, -126, 118, 58, -64, 98, -137, 36, 44, -10, -24, 114, -30, 37, -40, -6, -130, -87, 28, 74, 132, -35, -2, -39, -94, 116, 52, -85, 9, -51, -75, -114, 14, -150, 58, -116, 138, 135, 64, -8, -138, 123, -45, -146, 76, 26, -165, -144, -112, 124, 51, -15, -88, -81, 70, 16, -57, 140, 90, 25, 39, -65, 104, 40, -120, -96, -76, 134, 43, -169, 144, 96, 130, -125, -111, 9, 28, 146, 3, 22, 143, -71, -25, 4, 48, -96, -64, 116, 103, 45, -96, 15, 135, -19, 53, 0, -17, 3, -38, -61, -109, 74, 174, -80, 158, -51, 14, 41, -105, -20, 16, 141, -120, -58, 80, 57, 0, 30, 4, 19, -5, 33, -107, 35, 34, -99, -190, -174, -143, 26, -183, 123, -26, 124, 58, 44, -170, -72, -130, -172, -169, -144, 131, -123, -8, -88, -152, 40, -78, -144, -122, 50, -16, 162, 133, 166, -134, -60, -133, -138, 14, 80, 25]
+}}}
+
+{{{id=15|
+M = ModularSymbols(8,4, sign=1); M
+S = M.cuspidal_submodule()
+A = S.decomposition()[0]
+time E,v = A.compact_system_of_eigenvalues(prime_range(1000))
+print E.transpose()[0].list()
+///
+Time: CPU 0.53 s, Wall: 0.54 s
+[0, -4, -2, 24, -44, 22, 50, 44, -56, 198, -160, -162, -198, 52, 528, -242, -668, 550, 188, 728, 154, -656, 236, 714, -478, 1566, -968, -780, -1994, -942, 1408, -2692, 1626, -684, 302, 1352, 3142, 3036, -264, -2826, 3084, -2418, -960, 2882, 1086, 88, -3476, 928, 156, -1634, -902, 1616, 4818, -2140, 770, -7400, -2794, 8624, -1874, 3338, 7172, 5214, 396, -4056, 2154, -7386, -1132, -3342, 2244, -6522, -11230, 1848, 7120, 6350, -7900, 10368, 8830, 9878, -13134, 906, -5412, -4642, 656, 9490, 5544, 7652, -446, 1562, 10582, -10768, -9876, -352, -15176, -8844, 19404, 16488, -12954, 10970, -16940, 198, -15268, 20854, -19316, 7018, 24420, 23234, -10604, -13838, -3960, -5942, -3040, -2530, -19206, 10996, -6680, 6274, 9084, -23656, -6762, 15276, 11054, -21278, 8926, 8116, -11764, -4698, 24638, 16624, 30216, -3322, -14692, 28600, -29616, 2894, 14762, -7678, 27390, 19756, 38854, -14278, -716, -23538, -6616, 27236, 12070, -42024, 2414, -37686, 40644, -18656, -13002, 49490, 1100, -14104, -12716, -39632, 5704, 8162, -55110, 16374, 8460, -20502, -36520, 20244, 50034, 37128, 27808, -28514]
+}}}
+
+{{{id=8|
+%magma
+
+eps := DirichletGroup(7, RationalField()).1;
+eps;
+M := ModularSymbols(eps, 3, 1);
+S := CuspidalSubspace(M);
+D := NewformDecomposition(S)[1]; 
+time X := CompactSystemOfEigenvalues(D, 1000);
+///
+$.1
+Time: 0.380
+}}}
+
+{{{id=11|
+magma.Du
+///
+}}}
